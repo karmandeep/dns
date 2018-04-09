@@ -1,0 +1,176 @@
+/* CSS Document */
+
+table.dataTable tr th.select-checkbox.selected::after {
+    content: "✔";
+    text-align: center;
+	color:#485155;
+}
+
+table.dataTable tr th::after {
+    content: "✔";
+	color:#DDDCDC;	
+}
+
+table.dataTable thead th, table.dataTable thead td {
+	border-bottom:1px solid #DCDCDC;
+}
+
+table.dataTable.no-footer {
+	border-bottom:1px solid #DCDCDC;
+}
+
+
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody th.select-checkbox:before {
+	border:1px solid #485155;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 10000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	padding:100px 0 0 0;
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 50%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+	border-radius:0;
+}
+
+@media (max-width: 420px) {
+	.modal-content {
+	    width: 80%;
+	}	
+	.modal {
+		padding:10px 0 0 0;
+	}
+}
+/* The Close Button */
+.close {
+    color: #fff;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Modal Body */
+
+
+/* Modal Footer */
+.modal-footer {
+    background-color: #FFFFFF;
+    color: white;
+}
+
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.type-selection {
+
+}
+
+.type-selection ul {
+	margin:0;
+	padding:0;
+	float:left;
+	width:100%;
+}
+.type-selection ul li {
+	list-style:none;
+	float:left;
+	margin:0;
+	padding:5px 10px;
+	border-bottom:solid 2px #908E8E;
+	font-weight:bold;
+
+}
+
+.type-selection ul li:last-child {
+	margin-top:3px;
+	width:55%;
+	
+}
+
+.type-selection ul li:last-child:hover {	
+		color: #908E8E;
+		border-bottom:solid 2px #908E8E;
+
+}
+
+.type-selection ul li:last-child:hover a {	
+		color: #908E8E;
+}
+
+.type-selection ul li.active {
+	border-bottom:solid 2px #1D73FC;
+}
+
+.type-selection ul li.active a {
+	color: #1D73FC;
+}
+
+.type-selection ul li a {
+	color: #908E8E;
+	font-size:1.2em;
+}
+
+.type-selection ul li:hover {
+	border-bottom:solid 2px #1D73FC;
+
+}
+
+.type-selection ul li:hover a {
+	color: #1D73FC;
+
+}
+
+.type-selection ul li a:hover {
+	color: #1D73FC;
+	text-decoration:none;
+
+}
+
+.type-selection ul li a:focus {
+	text-decoration:none;
+}
+
+
+.punchline-text {
+	margin:0;
+	padding:10px 0;
+	width:100%;
+}
+
+.disabled { cursor: not-allowed; }
