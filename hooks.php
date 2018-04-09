@@ -39,14 +39,14 @@ add_hook('ClientEdit', 1, function(array $params) {
 
 
 add_hook('ClientAreaPrimarySidebar', 1, function($menu) {	
-	 
+
 	 if(isset($_GET['id'])):
 	 
 		 $hosting_id = $_GET['id'];
 		 
-			 if (!is_null($menu->getChild('Service Details Overview'))) {
+			 if (!is_null($menu->getChild('Domain Details Management'))) {
 				// Add a link to the module filter.
-				$menu->getChild('Service Details Overview')
+				$menu->getChild('Domain Details Management')
 					->addChild(
 						'DNS Management',
 						array(
@@ -91,7 +91,7 @@ add_hook('ClientAreaFooterOutput', 1, function($vars) {
 
 
 
-add_hook('AdminClientServicesTabFields', 1, function($vars) {
+add_hook('AdminClientDomainsTabFields', 1, function($vars) {
     // Perform hook code here...
 	//This is basically Service ID
 	$service_id = $vars['id'];

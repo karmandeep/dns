@@ -20,8 +20,8 @@ class Controller {
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 		$service_id = $_GET['service_id'];
         // Get common module parameters
-		
-		$services_query = select_query("tblhosting" , "", ['id' => $service_id]);
+
+		$services_query = select_query("tbldomains" , "", ['id' => $service_id,'type' => 'Register']);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -102,7 +102,7 @@ class Controller {
 	public function createnew($vars) {
 		
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
-		$service_id = $_GET['service_id'];
+		 $service_id = $_GET['service_id'];
 
 		 $type_array = ['A6' => 'A6',
 						'AAAA' => 'AAAA',
@@ -281,7 +281,7 @@ class Controller {
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 			$service_id = $_GET['service_id'];
 			
-			$services_query = select_query("tblhosting" , "", ['id' => $service_id]);
+			$services_query = select_query("tbldomains" , "", ['id' => $service_id,'type' => 'Register']);
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$pdns = new Powerdns_class();
@@ -498,7 +498,7 @@ class Controller {
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 			$service_id = $_GET['service_id'];
 			
-			$services_query = select_query("tblhosting" , "", ['id' => $service_id]);
+			$services_query = select_query("tbldomains" , "", ['id' => $service_id,'type' => 'Register']);
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$pdns = new Powerdns_class();
@@ -511,8 +511,8 @@ class Controller {
 											  'records' => [['content' => $_POST['content'],
 															 'disabled' => false]]
 											  ]]];
-			echo '<pre>';
-			print_r($request_data);
+//			echo '<pre>';
+//			print_r($request_data);
 										  
 			$data = json_encode($request_data);							  
 										  
