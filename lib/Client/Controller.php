@@ -21,7 +21,7 @@ class Controller {
     {
         // Get common module parameters
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'],'type' => 'Register']);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -65,7 +65,7 @@ class Controller {
 	public function submit($vars) {
 		
 
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'],'type' => 'Register']);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -96,7 +96,7 @@ class Controller {
 	
 	public function delete($vars) {
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'],'type' => 'Register']);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -125,7 +125,7 @@ class Controller {
 
 	public function updatettl($vars) {
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'],'type' => 'Register']);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -160,7 +160,7 @@ class Controller {
 		
 		$data = json_decode(file_get_contents('php://input'), true);
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'],'type' => 'Register']);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
