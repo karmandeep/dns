@@ -28,6 +28,8 @@ class Controller {
 		
 		$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
 		
+		
+		
 		$ttl_array = ['2592000' => '30 Days',
 					  '604800' => '7 Days',
 					  '86400' => '1 Day',
@@ -42,8 +44,8 @@ class Controller {
             'pagetitle' => 'DNS Management',
             'breadcrumb' => array(
 			    'clientarea.php' => 'Client Area',
-			    'clientarea.php?action=productdetails' => 'My Products &amp; Services',
-			    'clientarea.php?action=productdetails&id=' . $services_array['id'] => 'Product Details',
+			    'clientarea.php?action=domaindetails' => 'My Domains',
+			    'clientarea.php?action=domaindetails&id=' . $services_array['id'] => $services_array['domain'],
                 'index.php?m=dns&id=' . $services_array['id'] => 'DNS Management',
             ),
             'templatefile' => 'publicpage',

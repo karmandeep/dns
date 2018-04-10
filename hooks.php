@@ -95,14 +95,16 @@ add_hook('AdminClientDomainsTabFields', 1, function($vars) {
     // Perform hook code here...
 	//This is basically Service ID
 	$service_id = $vars['id'];
-	echo '<table class="form" width="100%" border="0" cellspacing="0" cellpadding="0">';
-		echo '<tbody>';
-			echo '<tr>';
-				echo '<td class="fieldlabel" width="100%">';
-					echo '<label onClick="window.open(\'addonmodules.php?module=dns&service_id='.$service_id.'\',\'movewindow\',\'width=800,height=600,top=100,left=100,scrollbars=yes\')" class="btn btn-default"><i class="fa fa-globe"></i> DNS Settings</label>';
-				echo '</td>';
-			echo '</tr>';
-		echo '</tbody>';
-	echo '</table>';	
+						echo '<div class="margin-10 text-right pull-md-left"><label style="margin:10px;" onClick="window.open(\'addonmodules.php?module=dns&service_id='.$service_id.'\',\'movewindow\',\'width=800,height=600,top=100,left=100,scrollbars=yes\')" class="btn btn-default"><i class="fa fa-globe"></i> DNS Settings</label></div>';
+
+	//echo '<table class="form" width="100%" border="0" cellspacing="0" cellpadding="0">';
+	//	echo '<tbody>';
+	//		echo '<tr>';
+	//			echo '<td class="fieldlabel" width="100%">';
+	//				echo '<label onClick="window.open(\'addonmodules.php?module=dns&service_id='.$service_id.'\',\'movewindow\',\'width=800,height=600,top=100,left=100,scrollbars=yes\')" class="btn btn-default"><i class="fa fa-globe"></i> DNS Settings</label>';
+	//			echo '</td>';
+	//		echo '</tr>';
+	//	echo '</tbody>';
+	//echo '</table>';
 	//return '12345';
 });
