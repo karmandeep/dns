@@ -312,7 +312,11 @@ $(function(){
 				var dataObj = {};
 				var error = false;
 				
-				name = name+'.'+domain+'.';	
+				if(name == '') {
+					name = domain+'.';	
+				} else {
+					name = name+'.'+domain+'.';	
+				}
 				
 				//Add Validations Based on Type
 				switch(type) {
@@ -469,8 +473,12 @@ $(function(){
 				var dataObj = {};
 				var error = false;
 				
-				name = name+'.'+domain+'.';	
-				
+				//name = name+'.'+domain+'.';	
+				if(name == '') {
+					name = domain+'.';	
+				} else {
+					name = name+'.'+domain+'.';	
+				}
 				//Add Validations Based on Type
 				switch(type) {
 						

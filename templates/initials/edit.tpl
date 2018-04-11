@@ -92,7 +92,7 @@
                             
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Is An Alias Of</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter @ or hostname" class="form-control">
+                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname" class="form-control">
                             </div>
         
         
@@ -126,7 +126,7 @@
                                 <label for="inputName" class="control-label">Hostname</label>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
-                                     <input type="text" name="name" readonly id="inputName" value="" placeholder="Enter @ or hostname" class="form-control">
+                                     <input type="text" name="name" readonly id="inputName" value="" placeholder="Enter hostname" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 pull-md-left margin-10">
                                         .{$domain}.
@@ -181,7 +181,7 @@
                                 <label for="inputName" class="control-label">Hostname</label>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
-                                     <input type="text" readonly name="name" id="inputName" value="" placeholder="Enter @ or hostname" class="form-control">
+                                     <input type="text" readonly name="name" id="inputName" value="" placeholder="Enter hostname" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 pull-md-left margin-10">
                                         .{$domain}.
@@ -233,7 +233,7 @@
                             
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Will Direct To</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter @ or hostname (e.g. www or domain.com)" class="form-control">
+                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname (e.g. www or domain.com)" class="form-control">
                             </div>
                             
                             <div class="form-group">

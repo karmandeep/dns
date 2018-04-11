@@ -15,30 +15,83 @@ class Controller {
      *
      * @return array
      */
+	private $ttl_array; 
+	 
+	public function __construct() {
+		
+		$this->set_ttl();
+	}
 	 
 	 
-    public function index($vars)
-    {
+	private function set_ttl() {
+		
+		$this->ttl_array = ['2592000' => '30 Days',
+							'604800' => '7 Days',
+							'86400' => '1 Day',
+							'43200' => '12 Hours',
+							'21600' => '6 Hours',
+							'3600' => '1 Hour',
+							'1800' => '10 Mins',
+							'300' => '5 Mins',
+							'60' => '1 Min'];
+
+	}
+	 
+    public function index($vars) {
+		
         // Get common module parameters
+		$templatefile = 'publicpage';
+		$vars_set = [];
+		
 		
 		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		$backend = $this->getNSbanckend($services_array['domain']);
+		//$backend = 'powerdns';
+		
+		switch($backend) {
+			
+			case 'nan':
+			
+				$templatefile = 'nodomains';
+				$vars_set = ['outputMsg' => 'NS Lookup Failed.'];
+				
+			break;
 
-		$pdns = new Powerdns_class();
+			case 'powerdns':
+
+				$pdns = new Powerdns_class();
+				$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
+				
+				//Set The Vars
+				$vars_set = ['id' => $services_array['id'],
+							 'domain' => $services_array['domain'],
+							 'domain_replaces' => ['.'.$services_array['domain'].'.' , $services_array['domain'].'.', $services_array['domain']],
+							 'ttl_array' => $this->ttl_array,
+							 'ttl_array_selected' => 3600,
+							 'records' => $req->rrsets];
+
+			break;
+
+			case 'cpanel':
+
+				//Process The cpanel Code
+				$templatefile = 'nodomains';
+				$vars_set = ['outputMsg' => 'DNS Settings Unavailable At The Moment.'];
+			
+			break;
+			
+			default:
+			
+				$templatefile = 'nodomains';
+				$vars_set = ['outputMsg' => 'No Records Found.'];
+				
+			break;
+
+			
+		}
 		
-		$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
-		
-		
-		
-		$ttl_array = ['2592000' => '30 Days',
-					  '604800' => '7 Days',
-					  '86400' => '1 Day',
-					  '43200' => '12 Hours',
-					  '21600' => '6 Hours',
-					  '3600' => '1 Hour',
-					  '1800' => '10 Mins',
-					  '300' => '5 Mins',
-					  '60' => '1 Min'];
 				
         return array(
             'pagetitle' => 'DNS Management',
@@ -48,18 +101,14 @@ class Controller {
 			    'clientarea.php?action=domaindetails&id=' . $services_array['id'] => $services_array['domain'],
                 'index.php?m=dns&id=' . $services_array['id'] => 'DNS Management',
             ),
-            'templatefile' => 'publicpage',
+            'templatefile' => $templatefile,
             'requirelogin' => true, // Set true to restrict access to authenticated client users
             'forcessl' => false, // Deprecated as of Version 7.0. Requests will always use SSL if available.
-            'vars' => array(
-                'id' => $services_array['id'],
-                'domain' => $services_array['domain'],
-                'domain_replaces' => '.'.$services_array['domain'].'.',
-				'ttl_array' => $ttl_array,
-				'ttl_array_selected' => 3600,
-				'records' => $req->rrsets
-            ),
+            'vars' => $vars_set,
         );
+		
+		
+		
     }
 
 	public function submit($vars) {
@@ -188,6 +237,35 @@ class Controller {
 		
 		echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
 		exit;
+		
+	}
+	
+	private function getNSbanckend($domain) {
+		
+		$backend = 'nan';
+		$ns = dns_get_record($domain, DNS_NS);
+		//$ns = dns_get_record('dfsdhfsdfjsdjf.de', DNS_NS);
+
+		if(is_array($ns) && sizeof($ns)):
+		
+			$firstNs = $ns[0]['target'];
+			if( stristr( $firstNs, 'rapidhost.co.uk' )) {
+				$backend = 'powerdns';
+			} else if( stristr( $firstNs, 'hpdns.net' )) {
+				$backend = 'cpanel';
+			} else if( stristr( $firstNs, 'enixns.com' )) {
+				$backend = 'cpanel';
+			} else {
+				$backend = NULL;  //display message to the user
+			}
+			
+		else:
+		
+			$backend = 'nan';
+										
+		endif;
+
+		return $backend;
 		
 	}
 	
