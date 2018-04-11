@@ -48,7 +48,7 @@ class Controller {
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		//$backend = 'powerdns';
+		//$backend = '';
 		
 		switch($backend) {
 			
@@ -85,7 +85,7 @@ class Controller {
 			default:
 			
 				$templatefile = 'nodomains';
-				$vars_set = ['outputMsg' => 'No Records Found.'];
+				$vars_set = ['outputMsg' => 'The domain\'s nameservers aren\'t pointing to HostPresto\'s. If you\'d like HostPresto to manage your DNS then please update your nameservers.'];
 				
 			break;
 

@@ -82,7 +82,7 @@
                                 <label for="inputName" class="control-label">Hostname</label>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
-                                     <input type="text" name="name" readonly id="inputName" value="" placeholder="Enter hostname" class="form-control">
+                                     <input type="text" name="name" readonly id="inputName" value="" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 pull-md-left margin-10">
                                         .{$domain}.
@@ -126,7 +126,7 @@
                                 <label for="inputName" class="control-label">Hostname</label>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
-                                     <input type="text" name="name" readonly id="inputName" value="" placeholder="Enter hostname" class="form-control">
+                                     <input type="text" name="name" readonly id="inputName" value="" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 pull-md-left margin-10">
                                         .{$domain}.
@@ -181,7 +181,7 @@
                                 <label for="inputName" class="control-label">Hostname</label>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
-                                     <input type="text" readonly name="name" id="inputName" value="" placeholder="Enter hostname" class="form-control">
+                                     <input type="text" readonly name="name" id="inputName" value="" class="form-control">
                                     </div>
                                     <div class="col-sm-5 col-md-5 col-lg-5 pull-md-left margin-10">
                                         .{$domain}.
