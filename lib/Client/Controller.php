@@ -249,11 +249,11 @@ class Controller {
 		if(is_array($ns) && sizeof($ns)):
 		
 			$firstNs = $ns[0]['target'];
-			if( stristr( $firstNs, 'rapidhost.co.uk' )) {
+			if( stristr( strtolower($firstNs), 'rapidhost.co.uk' )) {
 				$backend = 'powerdns';
-			} else if( stristr( $firstNs, 'hpdns.net' )) {
+			} else if( stristr( strtolower($firstNs), 'hpdns.net' )) {
 				$backend = 'cpanel';
-			} else if( stristr( $firstNs, 'enixns.com' )) {
+			} else if( stristr( strtolower($firstNs), 'enixns.com' )) {
 				$backend = 'cpanel';
 			} else {
 				$backend = NULL;  //display message to the user
