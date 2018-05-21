@@ -43,12 +43,13 @@ class Controller {
 		$templatefile = 'publicpage';
 		$vars_set = [];
 		
+		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		//$backend = '';
+		//$backend = 'powerdns';
 		
 		switch($backend) {
 			
@@ -113,8 +114,9 @@ class Controller {
 
 	public function submit($vars) {
 		
+		$client_id = $_SESSION['uid'];
 
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -144,8 +146,10 @@ class Controller {
 	}
 	
 	public function delete($vars) {
+
+		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
@@ -208,8 +212,10 @@ class Controller {
 	public function deleteall($vars) {
 		
 		$data = json_decode(file_get_contents('php://input'), true);
+
+		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id']]);
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
