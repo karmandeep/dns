@@ -2,6 +2,7 @@
 
 namespace WHMCS\Module\Addon\Dns\Admin;
 use WHMCS\Module\Addon\Dns\Powerdns_class;
+use WHMCS\Module\Addon\Dns\Cpaneldns_class;
 
 /**
  * Sample Admin Area Controller

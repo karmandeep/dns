@@ -16,7 +16,7 @@ namespace WHMCS\Module\Addon\Dns;
 			}
 			
 			$this->powerdns_server_url = $vars['powerdnsServerUrl'];
-			$this->powerdns_api_key = $vars['apiKey'];
+			$this->powerdns_api_key = $vars['powerdnsApiKey'];
 			
 		}
 		

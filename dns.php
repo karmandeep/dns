@@ -31,12 +31,14 @@ if (!defined("WHMCS")) {
 }
 
 require_once __DIR__ . '/powerdns_class.php';
+require_once __DIR__ . '/cpaneldns_class.php';
 // Require any libraries needed for the module to function.
 // require_once __DIR__ . '/path/to/library/loader.php';
 //
 // Also, perform any initialization required by the service's library.
 
 use WHMCS\Module\Addon\Dns\Powerdns_class;
+use WHMCS\Module\Addon\Dns\Cpaneldns_class;
 use WHMCS\Module\Addon\Dns\Admin\AdminDispatcher;
 use WHMCS\Module\Addon\Dns\Client\ClientDispatcher;
 
@@ -58,8 +60,8 @@ use WHMCS\Module\Addon\Dns\Client\ClientDispatcher;
 function dns_config()
 {
     return array(
-        'name' => 'Power DNS API', // Display name for your module
-        'description' => 'This module provides an WHMCS Addon Module which is integrated to powerDNS module.', // Description displayed within the admin interface
+        'name' => 'DNS API', // Display name for your module
+        'description' => 'This module provides an WHMCS Addon Module which is integrated to powerDNS module. With Added Support for cPanel DNS Cluster', // Description displayed within the admin interface
         'author' => 'Karmandeep Singh', // Module author name
         'language' => 'english', // Default language
         'version' => '1.0', // Version number
@@ -73,12 +75,36 @@ function dns_config()
                 'Description' => 'Please enter the power DNS Server Url',
             ),
             // a password field type allows for masked text input
-            'apiKey' => array(
+            'powerdnsApiKey' => array(
                 'FriendlyName' => 'Power DNS API Key',
                 'Type' => 'text',
                 'Size' => '55',
                 'Default' => '',
                 'Description' => 'Enter API Key here',
+            ),
+			// a password field type allows for masked text input
+            'cpaneldnsServerUrl' => array(
+                'FriendlyName' => 'cPanel DNS API Url',
+                'Type' => 'text',
+                'Size' => '55',
+                'Default' => '',
+                'Description' => 'Enter API Server Url',
+            ),
+			// a password field type allows for masked text input
+            'cpaneldnsApiUser' => array(
+                'FriendlyName' => 'cPanel DNS API User',
+                'Type' => 'text',
+                'Size' => '15',
+                'Default' => '',
+                'Description' => 'Enter API User',
+            ),
+			// a password field type allows for masked text input
+            'cpaneldnsApiToken' => array(
+                'FriendlyName' => 'cPanel DNS API Token',
+                'Type' => 'text',
+                'Size' => '255',
+                'Default' => '',
+                'Description' => 'Enter API Token',
             )
         )
     );
@@ -98,12 +124,16 @@ function dns_config()
 function dns_activate()
 {
     // Create custom tables and schema required by your module
-    $query = "CREATE TABLE `mod_powerdns` (`id` INT( 1 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,`demo` TEXT NOT NULL )";
+    //$query = "CREATE TABLE `mod_powerdns` (`id` INT( 1 ) NOT NULL AUTO_INCREMENT PRIMARY KEY ,`demo` TEXT NOT NULL )";
     //full_query($query);
 
-    return array(
-        'status' => 'success', // Supported values here include: success, error or info
-        'description' => 'This is a demo module only. In a real module you might report an error/failure or instruct a user how to get started with it here.',
+    //return array(
+    //    'status' => 'success', // Supported values here include: success, error or info
+    //    'description' => 'This is a demo module only. In a real module you might report an error/failure or instruct a user how to get started with it here.',
+    //);
+	
+	return array(
+        'status' => 'success' // Supported values here include: success, error or info
     );
 }
 
@@ -121,12 +151,15 @@ function dns_activate()
 function dns_deactivate()
 {
     // Undo any database and schema modifications made by your module here
-    $query = "DROP TABLE `mod_powerdns`";
+    //$query = "DROP TABLE `mod_powerdns`";
     //full_query($query);
 
-    return array(
-        'status' => 'success', // Supported values here include: success, error or info
-        'description' => 'This is a demo module only. In a real module you might report an error/failure here.',
+    //return array(
+    //    'status' => 'success', // Supported values here include: success, error or info
+    //    'description' => 'This is a demo module only. In a real module you might report an error/failure here.',
+    //);
+	return array(
+        'status' => 'success' // Supported values here include: success, error or info
     );
 }
 

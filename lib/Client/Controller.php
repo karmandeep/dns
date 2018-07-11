@@ -2,6 +2,7 @@
 
 namespace WHMCS\Module\Addon\Dns\Client;
 use WHMCS\Module\Addon\Dns\Powerdns_class;
+use WHMCS\Module\Addon\Dns\Cpaneldns_class;
 
 /**
  * Sample Client Area Controller
@@ -49,7 +50,7 @@ class Controller {
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		//$backend = 'powerdns';
+		$backend = 'cpanel';
 		
 		switch($backend) {
 			
@@ -66,20 +67,43 @@ class Controller {
 				$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
 				
 				//Set The Vars
+				$templatefile = 'publicpage';
 				$vars_set = ['id' => $services_array['id'],
 							 'domain' => $services_array['domain'],
 							 'domain_replaces' => ['.'.$services_array['domain'].'.' , $services_array['domain'].'.', $services_array['domain']],
 							 'ttl_array' => $this->ttl_array,
 							 'ttl_array_selected' => 3600,
 							 'records' => $req->rrsets];
+							 
 
 			break;
 
 			case 'cpanel':
 
-				//Process The cpanel Code
-				$templatefile = 'nodomains';
-				$vars_set = ['outputMsg' => 'DNS Settings Unavailable At The Moment.'];
+				$cdns = new Cpaneldns_class();
+				$req = $cdns->request('dumpzone' , ['domain' => $services_array['domain']]);
+				
+				$rrsets = [];
+				
+				if(count($req->result[0]->record) > 0):
+					foreach($req->result[0]->record as $key => $value):
+						if($value->type !== ':RAW' && $value->type !== '$TTL' && $value->type !== 'SOA' && $value->type !== 'NS'):
+						
+							$rrsets[] = $value;	
+							
+						endif;
+					endforeach;
+				endif;
+				
+				$templatefile = 'cpaneldomains';
+				$vars_set = ['id' => $services_array['id'],
+							 'domain' => $services_array['domain'],
+							 //'domain_replaces' => ['.'.$services_array['domain'].'.' , $services_array['domain'].'.', $services_array['domain']],
+							 'domain_replaces' => $services_array['domain'],
+							 'ttl_array' => $this->ttl_array,
+							 'ttl_array_selected' => 3600,
+							 'records' => $rrsets];
+				
 			
 			break;
 			

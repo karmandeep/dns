@@ -65,7 +65,7 @@ add_hook('ClientAreaPrimarySidebar', 1, function($menu) {
 add_hook('ClientAreaHeadOutput', 1, function($vars) {
 	
 		
-	if(basename($vars['templatefile']) === 'publicpage.tpl'):
+	if(basename($vars['templatefile']) === 'publicpage.tpl' || basename($vars['templatefile']) === 'cpaneldomains.tpl'):
 	
 		return '<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/sl-1.2.5/datatables.min.css"/>
 				<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
@@ -78,7 +78,7 @@ add_hook('ClientAreaHeadOutput', 1, function($vars) {
 
 add_hook('ClientAreaFooterOutput', 1, function($vars) {
 			
-	if(basename($vars['templatefile']) === 'publicpage.tpl'):
+	if(basename($vars['templatefile']) === 'publicpage.tpl' || basename($vars['templatefile']) === 'cpaneldomains.tpl'):
 			
 		return '<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/r-2.2.1/sl-1.2.5/datatables.min.js"></script>
 				<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
