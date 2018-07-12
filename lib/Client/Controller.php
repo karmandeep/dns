@@ -31,6 +31,7 @@ class Controller {
 							'86400' => '1 Day',
 							'43200' => '12 Hours',
 							'21600' => '6 Hours',
+							'14400' => '4 Hours',
 							'3600' => '1 Hour',
 							'1800' => '10 Mins',
 							'300' => '5 Mins',
@@ -38,6 +39,9 @@ class Controller {
 
 	}
 	 
+	 
+	 
+	//Common 
     public function index($vars) {
 		
         // Get common module parameters
@@ -80,8 +84,9 @@ class Controller {
 
 			case 'cpanel':
 
-				$cdns = new Cpaneldns_class();
+				$cdns = new Cpaneldns_class();				
 				$req = $cdns->request('dumpzone' , ['domain' => $services_array['domain']]);
+				
 				
 				$rrsets = [];
 				
@@ -136,7 +141,9 @@ class Controller {
 		
     }
 
+	/*PowerDNS Functions*/
 	public function submit($vars) {
+		
 		
 		$client_id = $_SESSION['uid'];
 
@@ -169,6 +176,10 @@ class Controller {
 		
 	}
 	
+	
+	
+	
+	/**/
 	public function delete($vars) {
 
 		$client_id = $_SESSION['uid'];
@@ -271,6 +282,116 @@ class Controller {
 		exit;
 		
 	}
+	
+	
+	
+	
+	
+	
+	//cPanel **********************************************/
+	
+	public function submitcpanel($vars) {
+
+		$client_id = $_SESSION['uid'];
+		
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		$cdns = new Cpaneldns_class();
+
+		if(isset($_POST['mode'])):
+				
+			$mode = $_POST['mode'];		
+			$type = $_POST['type'];
+			
+			$params = [];
+			$params = ['domain' => $services_array['domain'],
+					   'name' => $_POST['name'],
+					   'class' => 'IN',
+					   'ttl' => $_POST['ttl'],
+					   'type' => $type];
+					   
+			//line is required for edit.
+			
+			if($mode === 'editzonerecord') {
+				$params = array_merge($params , ['line' => $_POST['line']]);
+			}
+			
+			switch($type) {
+				
+				case 'A':
+					$params = array_merge($params , ['address' => $_POST['content']['address']]);
+				break;
+			
+				case 'CNAME':
+					$params = array_merge($params , ['cname' => $_POST['content']['cname']]);
+				break;
+
+				case 'MX':
+					$params = array_merge($params , ['exchange' => $_POST['content']['exchange'],
+												     'preference' => $_POST['content']['priority']]);
+				break;
+
+				case 'TXT':
+					$params = array_merge($params , ['txtdata' => $_POST['content']['txtdata']]);
+				break;
+
+				case 'SRV':
+					$params = array_merge($params , ['priority' => $_POST['content']['priority'],
+												     'weight' => $_POST['content']['weight'],
+												     'port' => $_POST['content']['port'],
+												     'target' => $_POST['content']['target']]);
+				break;
+			
+				default:
+				break;
+			}
+		
+			
+			
+			$req = $cdns->request($mode , $params);
+		
+			if($req->result[0]->status == 1):
+				echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
+				exit;
+			else:
+				echo json_encode(['code' => 0, 'message' => $req->result[0]->statusmsg, 'data' => []]);	
+				exit;				
+			endif;
+		
+		endif;
+		
+		echo json_encode(['code' => 0, 'message' => 'Error: Please Try Again Later.', 'data' => []]);
+		exit;
+				
+		
+	}
+	
+	
+	public function deletecpanel($vars) {
+
+		$client_id = $_SESSION['uid'];
+		
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		$cdns = new Cpaneldns_class();
+		
+		if(isset($_POST)):
+		
+			$req = $cdns->request('removezonerecord' , ['zone' => $_POST['zone'] , 'line' => $_POST['line']]);
+			
+			if($req->result[0]->status == 1):
+				echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
+				exit;
+			endif;
+		
+		endif;
+		
+		echo json_encode(['code' => 0, 'message' => 'Error: Please Try Again Later.', 'data' => []]);
+		exit;
+	}
+	
 	
 	private function getNSbanckend($domain) {
 		

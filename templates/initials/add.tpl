@@ -23,7 +23,7 @@
                 <div class="tab-content tabs-selection">
                     <div id="adda" class="tab-pane active" role="add-tabpanel">
                         <form class="dns-form-add" name="add-dnsRecord-a" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                            <input type="hidden" name="mode" value="add">
+                            <!--<input type="hidden" name="mode" value="add">-->
         					<input type="hidden" name="id" value="{$id}">
                             <input type="hidden" name="type" value="A">
                             <input type="hidden" name="domain" value="{$domain}"> 
@@ -74,7 +74,7 @@
                     
                     
                     	<form class="dns-form-add" name="add-dnsRecord-cname" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                            <input type="hidden" name="mode" value="add">
+                            <!--<input type="hidden" name="mode" value="add">-->
         					<input type="hidden" name="id" value="{$id}">
                             <input type="hidden" name="type" value="CNAME">
                             <input type="hidden" name="domain" value="{$domain}">
@@ -126,7 +126,7 @@
                     <div id="addmx" class="tab-pane" role="add-tabpanel">
                     
                     	<form class="dns-form-add" name="add-dnsRecord-mx" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                            <!--<input type="hidden" name="mode" value="add">-->
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="MX">
                            <input type="hidden" name="domain" value="{$domain}">
@@ -185,7 +185,7 @@
                     <div id="addtxt" class="tab-pane" role="add-tabpanel">
                     
                     	<form class="dns-form-add" name="add-dnsRecord-txt" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                            <!--<input type="hidden" name="mode" value="add">-->
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="TXT">
                            <input type="hidden" name="domain" value="{$domain}">
@@ -233,7 +233,7 @@
                     <div id="addsrv" class="tab-pane" role="add-tabpanel">
                     
                     	<form class="dns-form-add" name="add-dnsRecord-srv" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                            <!--<input type="hidden" name="mode" value="add">-->
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="SRV">
                            <input type="hidden" name="domain" value="{$domain}">

@@ -8,9 +8,9 @@
 	<div class="col-md-9 pull-md-right">
     	<div class="row">
         	<div class="col-sm-12 col-md-12 col-lg-12 margin-10 ">
-       	    	{include file='modules/addons/dns/templates/initials/add.tpl'}
-                {include file='modules/addons/dns/templates/initials/edit.tpl'}
-            	<button id="create-record" class="btn btn-success margin-10 pull-md-right"><i class="fa fa-plus" aria-hidden="true"></i> Create Record</button> 
+       	    	{include file='modules/addons/dns/templates/initials/addcpanel.tpl'}
+                {include file='modules/addons/dns/templates/initials/editcpanel.tpl'}
+            	<button id="create-record-cpanel" class="btn btn-success margin-10 pull-md-right"><i class="fa fa-plus" aria-hidden="true"></i> Create Record</button> 
             </div>
         </div>
         <div class="row">
@@ -58,13 +58,28 @@
                                     
                                     
                                     {foreach from=$records item=obj}
-                                            <tr  >
+                                            <tr data-obj='' >
                                                 <td></td>
                                                 <td>{$obj->name}</td>
                                                 <td>{$obj->type}</td>
-                                                <td></td>
+                                                <td style="overflow:auto;">
+                                                
+                                                {if $obj->type eq 'A'}
+                                                	{$obj->address}
+                                                {elseif $obj->type eq 'CNAME'}
+                                                	{$obj->cname}
+                                                {elseif $obj->type eq 'MX'}
+                                                	{$obj->exchange}
+                                                {elseif $obj->type eq 'TXT'}
+                                                	{$obj->txtdata|substr:0:25}
+                                                {elseif $obj->type eq 'SRV'}
+                                                	{$obj->target}
+                                                {/if}
+                                                
+                                                </td>
                                                 <td>{$ttl_array[$obj->ttl]}</td>
-                                                <td></td>
+                                                <td><button class="btn btn-warning btn-edit" onClick="javascript:editcpanel(this);" data-obj='' data-rrsets='' data-name=''><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                &nbsp;<button class="btn btn-danger btn-delete" onClick="javascript:removecpanel('{$domain}' , '{$obj->Line}');"><i class="fa fa-trash" aria-hidden="true"></i> </button</td>
                                             </tr>
                                     {/foreach}        
                                                  
@@ -78,13 +93,13 @@
                 
                 </div>
                 </div>
-                {include file='modules/addons/dns/templates/initials/update-ttl.tpl'}
-                {include file='modules/addons/dns/templates/initials/delete-ttl.tpl'}
+                {include file='modules/addons/dns/templates/initials/update-editcpanel-ttl.tpl'}
+                {include file='modules/addons/dns/templates/initials/delete-editcpanel-ttl.tpl'}
                 <div class="dropdown">
                 	<button class="btn btn-secondary bulk-actions disabled dropdown-toggle pull-md-left" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulk Actions <b class="caret"></b></button>
                    	<ul class="dropdown-menu" style="margin-top:25px;" aria-labelledby="dropdownMenuButton">
-                    	<li class="dropdown-item"><a onClick="javascript:updatettl(this);" href="#"><i class="fa fa-hourglass" aria-hidden="true"></i> Adjust TTL</a></li>
-                    	<li class="dropdown-item"><a onClick="javascript:deleteAll(this);" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+                    	<li class="dropdown-item"><a onClick="javascript:updatecpanelttl(this);" href="#"><i class="fa fa-hourglass" aria-hidden="true"></i> Adjust TTL</a></li>
+                    	<li class="dropdown-item"><a onClick="javascript:deletecpanelAll(this);" href="#"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
                     </ul>
             	</div>
                 
