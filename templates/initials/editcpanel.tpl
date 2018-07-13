@@ -22,8 +22,9 @@
                 <div class="tab-content tabs-selection">
                 	<div id="edita" rel="A" class="tab-pane" role="edit-tabpanel">
                     	
-                        <form id="edit-dns-a" class="dns-form-edit" name="edit-dnsRecord-a" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                            <input type="hidden" name="mode" value="edit">
+                        <form id="edit-dns-cpanel-a" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-a" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                            <input type="hidden" name="mode" value="editzonerecord">
+                            <input type="hidden" name="line" value="">
                             <input type="hidden" name="id" value="{$id}">
                             <input type="hidden" name="type" value="A">
                             <input type="hidden" name="domain" value="{$domain}"> 
@@ -34,7 +35,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <label for="inputName" class="control-label">Name</label>
+                                        <label for="inputName" class="control-label">Hostname</label>
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
                                              <input type="text" readonly name="name" id="inputName" value="" class="form-control">
@@ -46,8 +47,8 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="inputContent" class="control-label">Content</label>
-                                        <input type="text" name="content"  autocomplete="off" id="inputContent" value="" class="form-control">
+                                        <label for="inputContent" class="control-label">Will Direct To</label>
+                                        <input type="text" name="address"  autocomplete="off" id="inputContent" value="" class="form-control">
                                     </div>
                                     
                                     
@@ -70,8 +71,9 @@
                     </div>
                 	<div id="editcname" rel="CNAME" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-cname" class="dns-form-edit" name="edit-dnsRecord-cname" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                             <input type="hidden" name="mode" value="add">
+                    	<form id="edit-dns-cpanel-cname" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-cname" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                             <input type="hidden" name="mode" value="editzonerecord">
+                             <input type="hidden" name="line" value="">
         					<input type="hidden" name="id" value="{$id}">
                             <input type="hidden" name="type" value="CNAME">
                             <input type="hidden" name="domain" value="{$domain}"> 
@@ -92,7 +94,7 @@
                             
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Is An Alias Of</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname" class="form-control">
+                                <input type="text" name="cname"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname" class="form-control">
                             </div>
         
         
@@ -114,8 +116,9 @@
                     </div>
                 	<div id="editmx" rel="MX" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-mx" class="dns-form-edit" name="edit-dnsRecord-mx" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                    	<form id="edit-dns-cpanel-mx" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-mx" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                           <input type="hidden" name="mode" value="editzonerecord">
+                           <input type="hidden" name="line" value="">
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="MX">
                             <input type="hidden" name="domain" value="{$domain}"> 
@@ -136,7 +139,7 @@
                             
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Mail Provider Mail Server</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="e.g. aspmx.l.google.com" class="form-control">
+                                <input type="text" name="exchange"  autocomplete="off" id="inputContent" value="" placeholder="e.g. aspmx.l.google.com" class="form-control">
                             </div>
         
                             <div class="form-group">
@@ -168,8 +171,9 @@
                     </div>
                 	<div id="edittxt" rel="TXT" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-txt" class="dns-form-edit" name="edit-dnsRecord-txt" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                    	<form id="edit-dns-cpanel-txt" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-txt" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                           <input type="hidden" name="mode" value="editzonerecord">
+                           <input type="hidden" name="line" value="">
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="TXT">
                             <input type="hidden" name="domain" value="{$domain}"> 
@@ -191,7 +195,7 @@
         
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Value</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Paste TXT String here" class="form-control">
+                                <input type="text" name="txtdata"  autocomplete="off" id="inputContent" value="" placeholder="Paste TXT String here" class="form-control">
                             </div>
                             
                             <div class="form-group">
@@ -211,8 +215,9 @@
                     </div>
                 	<div id="editsrv" rel="SRV" class="tab-pane " role="edit-tabpanel">
                     	
-                        <form id="edit-dns-srv" class="dns-form-edit" name="edit-dnsRecord-srv" method="post" action="index.php?m=dns&id={$id}&action=submit">
-                           <input type="hidden" name="mode" value="add">
+                        <form id="edit-dns-cpanel-srv" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-srv" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                           <input type="hidden" name="mode" value="editzonerecord">
+                           <input type="hidden" name="line" value="">
 	       				   <input type="hidden" name="id" value="{$id}">
                            <input type="hidden" name="type" value="SRV">
                            <input type="hidden" name="domain" value="{$domain}"> 
@@ -233,7 +238,7 @@
                             
                             <div class="form-group">
                                 <label for="inputContent" class="control-label">Will Direct To</label>
-                                <input type="text" name="content"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname (e.g. www or domain.com)" class="form-control">
+                                <input type="text" name="target"  autocomplete="off" id="inputContent" value="" placeholder="Enter hostname (e.g. www or domain.com)" class="form-control">
                             </div>
                             
                             <div class="form-group">

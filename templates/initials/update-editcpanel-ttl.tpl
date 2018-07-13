@@ -1,4 +1,4 @@
-<div id="update-ttl-record-Modal" class="modal record" role="dialog">
+<div id="update-cpanel-ttl-record-Modal" class="modal record" role="dialog">
     <div class="modal-content">
       <div class="modal-header">
         <span class="close">&times;</span>
@@ -11,9 +11,9 @@
            <div class="col-sm-12 col-md-12 col-lg-12">
     			
                 <div class="ttl-update-form">
-                <form id="mass-update-ttl" onSubmit="return false;" class="mass-update-ttl" name="mass-update-ttl" method="post" action="index.php?m=dns&id={$id}&action=updatettl">
+                <form id="mass-update-cpanel-ttl" onSubmit="return false;" class="mass-update-cpanel-ttl" name="mass-update-cpanel-ttl" method="post" action="index.php?m=dns&id={$id}&action=updatettlcpanel">
                     <input type="hidden" name="id" value="{$id}">
-                    <input type="hidden" name="mode" value="updatettl">
+                    <input type="hidden" name="mode" value="editzonerecord">
                     <input type="hidden" name="domain" value="{$domain}"> 
 
                     <div class="form-group">

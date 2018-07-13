@@ -58,7 +58,7 @@
                                     
                                     
                                     {foreach from=$records item=obj}
-                                            <tr data-obj='' >
+                                            <tr data-obj='{$obj|@json_encode}' >
                                                 <td></td>
                                                 <td>{$obj->name}</td>
                                                 <td>{$obj->type}</td>
@@ -78,7 +78,7 @@
                                                 
                                                 </td>
                                                 <td>{$ttl_array[$obj->ttl]}</td>
-                                                <td><button class="btn btn-warning btn-edit" onClick="javascript:editcpanel(this);" data-obj='' data-rrsets='' data-name=''><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                <td><button class="btn btn-warning btn-edit" onClick="javascript:editcpanel(this);" data-obj='{$obj|@json_encode}' data-name="{$domain}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                                                 &nbsp;<button class="btn btn-danger btn-delete" onClick="javascript:removecpanel('{$domain}' , '{$obj->Line}');"><i class="fa fa-trash" aria-hidden="true"></i> </button</td>
                                             </tr>
                                     {/foreach}        

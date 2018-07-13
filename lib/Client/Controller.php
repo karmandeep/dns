@@ -54,7 +54,7 @@ class Controller {
 	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		$backend = 'cpanel';
+		//$backend = 'cpanel';
 		
 		switch($backend) {
 			
@@ -86,8 +86,7 @@ class Controller {
 
 				$cdns = new Cpaneldns_class();				
 				$req = $cdns->request('dumpzone' , ['domain' => $services_array['domain']]);
-				
-				
+								
 				$rrsets = [];
 				
 				if(count($req->result[0]->record) > 0):
@@ -99,6 +98,7 @@ class Controller {
 						endif;
 					endforeach;
 				endif;
+				
 				
 				$templatefile = 'cpaneldomains';
 				$vars_set = ['id' => $services_array['id'],
@@ -379,7 +379,7 @@ class Controller {
 		
 		if(isset($_POST)):
 		
-			$req = $cdns->request('removezonerecord' , ['zone' => $_POST['zone'] , 'line' => $_POST['line']]);
+			$req = $cdns->request('removezonerecord' , ['zone' => $services_array['domain'] , 'line' => $_POST['line']]);
 			
 			if($req->result[0]->status == 1):
 				echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
@@ -392,6 +392,91 @@ class Controller {
 		exit;
 	}
 	
+	
+	public function updatettlcpanel($vars) {
+
+		$client_id = $_SESSION['uid'];
+		
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
+	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		$cdns = new Cpaneldns_class();
+		$mode = $_POST['mode'];
+		//mode
+		if(count($services_array)):
+			if(isset($_POST['data'])):
+				foreach($_POST['data'] as $key => $value):
+				
+						$cdns->request($mode , ['domain' => $services_array['domain'],
+						 					    'name' => $value['name'],
+												'class' => 'IN',
+												'type' => $value['type'],
+												'ttl' => $_POST['newttl'],
+												'line' => $value['Line']]);
+						
+						
+				endforeach;
+			
+			
+			endif;
+
+			echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
+			exit;
+
+		endif;
+		
+		echo json_encode(['code' => 0, 'message' => 'Error: Please Try Again Later.', 'data' => []]);
+		exit;	
+		
+	}
+	
+	//Workign on this
+	public function deleteallcpanel($vars) {
+
+		$data = json_decode(file_get_contents('php://input'), true);
+		
+		$client_id = $_SESSION['uid'];
+		
+		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
+	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		$cdns = new Cpaneldns_class();
+		
+		if(count($services_array)):
+			if(count($data)):
+				foreach($data as $key => $value):
+				
+					//try {
+						
+						$req = $cdns->request('removezonerecord' , ['zone' => $services_array['domain'] , 'line' => $value['Line']]);
+						
+						if($req->result[0]->status == 1) {
+							continue;
+
+						} else {
+						
+							echo json_encode(['code' => 0, 'message' => 'Error: Unbale to Delete Selected Records, Please Try Again.', 'data' => []]);
+						  	exit;
+							break;
+						}
+					//} catch(Exception $e) {
+						
+					//  	echo json_encode(['code' => 1, 'message' => $e->getMessage(), 'data' => []]);
+					//  	exit;
+					  
+					//}
+					
+				endforeach;
+				
+			endif;	
+			echo json_encode(['code' => 1, 'message' => 'Success', 'data' => []]);	
+			exit;
+		endif;
+
+		echo json_encode(['code' => 0, 'message' => 'Error: Please Try Again Later.', 'data' => []]);
+		exit;	
+
+	}
 	
 	private function getNSbanckend($domain) {
 		

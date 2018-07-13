@@ -34,7 +34,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-group">
-                                        <label for="inputName" class="control-label">Name</label>
+                                        <label for="inputName" class="control-label">Hostname</label>
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-6 pull-md-left">
                                              <input type="text" readonly name="name" id="inputName" value="" class="form-control">
@@ -46,7 +46,7 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="inputContent" class="control-label">Content</label>
+                                        <label for="inputContent" class="control-label">Will Direct To</label>
                                         <input type="text" name="content"  autocomplete="off" id="inputContent" value="" class="form-control">
                                     </div>
                                     
