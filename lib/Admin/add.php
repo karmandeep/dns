@@ -9,10 +9,12 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
     <link href="templates/blend/css/all.min.css?v=adcb9b" rel="stylesheet" />
 
-    
 	
     <script type="text/javascript">
     
+
+	
+	
     	function checkForm(Form) {
 			
 			if(Form.content.value == '') {

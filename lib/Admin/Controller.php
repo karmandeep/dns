@@ -105,6 +105,7 @@ class Controller {
 							'86400' => '1 Day',
 							'43200' => '12 Hours',
 							'21600' => '6 Hours',
+							'14400' => '4 Hours',
 							'3600' => '1 Hour',
 							'1800' => '10 Mins',
 							'300' => '5 Mins',
@@ -119,6 +120,7 @@ class Controller {
      *
      * @return string
      */
+	 //this is Common to both cPanel and PowerDNS
     public function index($vars) {
 		
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
@@ -130,7 +132,7 @@ class Controller {
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$backend = $this->getNSbanckend($services_array['domain']);
-			//$backend = '';
+			//$backend = 'cpanel';
 			
 			switch($backend) {
 					
@@ -144,13 +146,18 @@ class Controller {
 		
 						$pdns = new Powerdns_class();
 						$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
-								
+						
+						include('listing.php');
+						exit;		
 					break;
 		
 					case 'cpanel':
 		
-						die('<h3>DNS Settings Unavailable At The Moment.</h3>');
-									
+						$cdns = new Cpaneldns_class();
+						$req = $cdns->request('dumpzone' , ['domain' => $services_array['domain']]);
+						
+						include('listing-cpanel.php');
+						exit;			
 					break;
 					
 					default:
@@ -161,8 +168,8 @@ class Controller {
 				
 			}
 			
-			include('listing.php');
-			exit;
+			
+					
     
 		endif; //END IF
     }
@@ -284,6 +291,7 @@ class Controller {
 	 public function delete($vars) {
 		 
 		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		
 			$service_id = $_GET['service_id'];
 			
 			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
@@ -321,6 +329,174 @@ class Controller {
 	 }
 	 
 	 
+	 
+   /**
+	*
+	*
+	* CPANEL DNS -----------------------------------------------------------------------
+	*
+	*
+	*/
+	 
+	public function addzonerecord($vars) {
+		
+		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		
+			
+			$service_id = $_GET['service_id'];
+			
+			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+
+		
+			include('addzonerecord.php');
+			exit;
+			
+		endif;
+	}
+	
+	public function editzonerecord($vars) {
+	
+		  $service_id = $_GET['service_id'];
+		  
+		  $services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+		  $services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		
+		  $line = $_GET['line'];
+		  
+		  if($line > 0):
+		  
+			  $cdns = new Cpaneldns_class();
+			  $req = $cdns->request('dumpzone' , ['domain' => $services_array['domain']]);
+				
+			  $editZoneData = [];			
+			
+			  foreach($req->result[0]->record as $key => $value):
+				if($value->type !== 'NS' && $value->type !== 'SOA' && $value->type !== ':RAW' && $value->type !== '$TTL'):
+					if($value->Line == $line):
+					
+						$editZoneData	= $value;
+					
+					endif;
+				endif;
+			  endforeach;	
+		
+		endif;
+		
+		
+		
+		include('editzonerecord.php');
+		exit;
+	}
+
+	public function removezonerecord($vars) {
+
+		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		
+			$service_id = $_GET['service_id'];
+				
+			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			
+			$domain = $_GET['domain'];
+			$line = $_GET['line'];
+			
+			$cdns = new Cpaneldns_class();
+			
+			if($services_array['domain'] ===  $domain) {
+				
+				$req = $cdns->request('removezonerecord' , ['domain' => $domain , 'line' => $line]);
+
+				if($req->result[0]->status == 0):
+					header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=error&msg=" . urlencode($req->result[0]->statusmsg));
+					exit;
+				endif;	
+				
+				header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=success");
+				exit;
+			}
+		
+		
+		endif;
+	}
+	
+	
+	public function submitcpanel($vars) {
+		
+		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		
+			$service_id = $_GET['service_id'];
+			
+			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			
+			$params = [];
+			
+			$mode = $_POST['mode'];
+			$type = $_POST['type'];
+			$line_data = "";
+			
+			$cdns = new Cpaneldns_class();
+
+			$params = ['domain' => $services_array['domain'],
+					   'name' => $_POST['name'],
+					   'class' => 'IN',
+					   'ttl' => $_POST['ttl'],
+					   'type' => $type];
+
+			if($mode === 'editzonerecord') {
+				$params = array_merge($params , ['line' => $_POST['line']]);
+				$line_data = "&line=".$_POST['line'];
+			}
+			
+			switch($type) {
+			
+				case 'A':
+					$params = array_merge($params , ['address' => $_POST['address']]);
+				break;
+			
+				case 'CNAME':
+					$params = array_merge($params , ['cname' => $_POST['cname']]);
+				break;
+
+				case 'MX':
+					$params = array_merge($params , ['exchange' => $_POST['exchange'],
+												     'preference' => $_POST['priority']]);
+				break;
+
+				case 'TXT':
+					$params = array_merge($params , ['txtdata' => $_POST['txtdata']]);
+				break;
+
+				case 'SRV':
+					$params = array_merge($params , ['priority' => $_POST['priority'],
+												     'weight' => $_POST['weight'],
+												     'port' => $_POST['port'],
+												     'target' => $_POST['target']]);
+				break;
+			
+				default:
+				break;
+				
+			}
+			
+			$req = $cdns->request($mode , $params);
+
+			if($req->result[0]->status == 0):
+				header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . "&result=error&msg=" . urlencode($req->result[0]->statusmsg) . $line_data);
+				exit;
+			endif;	
+			
+			header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . "&result=success" . $line_data);
+			exit;
+						
+		endif;	
+
+		header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . $line_data);
+		exit;
+
+	}
+	
 	
     /**
      * Show action.
