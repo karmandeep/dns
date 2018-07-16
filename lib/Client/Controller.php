@@ -257,6 +257,7 @@ class Controller {
 
 		$pdns = new Powerdns_class();
 		$request_data = [];
+		
 		foreach($data as $key => $value):
 			
 			$request_data['rrsets'][] = ['name' => $value['name'],
@@ -402,6 +403,7 @@ class Controller {
 		
 		$cdns = new Cpaneldns_class();
 		$mode = $_POST['mode'];
+		
 		//mode
 		if(count($services_array)):
 			if(isset($_POST['data'])):
