@@ -116,7 +116,7 @@
 								break;
 
 								case 'TXT':
-									echo $value->txtdata;
+									echo substr($value->txtdata, 0 , 50);
 								break;
 								
 								case 'SRV':

@@ -113,6 +113,8 @@ class Controller {
 
 	}
 	 
+	 
+	 
 	 /**
      * Show action.
      *
@@ -132,7 +134,7 @@ class Controller {
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$backend = $this->getNSbanckend($services_array['domain']);
-			$backend = 'cpanel';
+			//$backend = 'cpanel';
 			
 			switch($backend) {
 					
