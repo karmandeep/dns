@@ -22,10 +22,10 @@
                 <div class="tab-content tabs-selection">
                 	<div id="edita" rel="A" class="tab-pane" role="edit-tabpanel">
                     	
-                        <form id="edit-dns-cpanel-a" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-a" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                        <form id="edit-dns-cpanel-a" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-a" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                             <input type="hidden" name="mode" value="editzonerecord">
                             <input type="hidden" name="line" value="">
-                            <input type="hidden" name="id" value="{$id}">
+                            {$hidden_id_string}
                             <input type="hidden" name="type" value="A">
                             <input type="hidden" name="domain" value="{$domain}"> 
                    
@@ -71,10 +71,10 @@
                     </div>
                 	<div id="editcname" rel="CNAME" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-cpanel-cname" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-cname" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form id="edit-dns-cpanel-cname" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-cname" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                              <input type="hidden" name="mode" value="editzonerecord">
                              <input type="hidden" name="line" value="">
-        					<input type="hidden" name="id" value="{$id}">
+        					{$hidden_id_string}
                             <input type="hidden" name="type" value="CNAME">
                             <input type="hidden" name="domain" value="{$domain}"> 
                             
@@ -116,10 +116,10 @@
                     </div>
                 	<div id="editmx" rel="MX" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-cpanel-mx" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-mx" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form id="edit-dns-cpanel-mx" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-mx" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="editzonerecord">
                            <input type="hidden" name="line" value="">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="MX">
                             <input type="hidden" name="domain" value="{$domain}"> 
                             
@@ -171,10 +171,10 @@
                     </div>
                 	<div id="edittxt" rel="TXT" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-cpanel-txt" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-txt" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form id="edit-dns-cpanel-txt" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-txt" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="editzonerecord">
                            <input type="hidden" name="line" value="">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="TXT">
                             <input type="hidden" name="domain" value="{$domain}"> 
 
@@ -215,10 +215,10 @@
                     </div>
                 	<div id="editsrv" rel="SRV" class="tab-pane " role="edit-tabpanel">
                     	
-                        <form id="edit-dns-cpanel-srv" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-srv" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                        <form id="edit-dns-cpanel-srv" class="dns-cpanel-form-edit" name="edit-dnsRecord-cpanel-srv" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="editzonerecord">
                            <input type="hidden" name="line" value="">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="SRV">
                            <input type="hidden" name="domain" value="{$domain}"> 
                            

@@ -22,9 +22,9 @@
                 </ul>
                 <div class="tab-content tabs-selection">
                     <div id="adda" class="tab-pane active" role="add-tabpanel">
-                        <form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-a" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                        <form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-a" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                             <input type="hidden" name="mode" value="addzonerecord">
-        					<input type="hidden" name="id" value="{$id}">
+        					{$hidden_id_string}
                             <input type="hidden" name="type" value="A">
                             <input type="hidden" name="domain" value="{$domain}"> 
                             
@@ -71,9 +71,9 @@
                         </form>
                     </div>
                     <div id="addcname" class="tab-pane" role="add-tabpanel">
-                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-cname" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-cname" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                             <input type="hidden" name="mode" value="addzonerecord">
-        					<input type="hidden" name="id" value="{$id}">
+        					{$hidden_id_string}
                             <input type="hidden" name="type" value="CNAME">
                             <input type="hidden" name="domain" value="{$domain}">
                             
@@ -119,9 +119,9 @@
                         </form>
                     </div>
                     <div id="addmx" class="tab-pane" role="add-tabpanel">
-                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-mx" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-mx" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="addzonerecord">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="MX">
                            <input type="hidden" name="domain" value="{$domain}">
                             
@@ -176,9 +176,9 @@
                         </form>
                     </div>
                     <div id="addtxt" class="tab-pane" role="add-tabpanel">
-                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-txt" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-txt" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="addzonerecord">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="TXT">
                            <input type="hidden" name="domain" value="{$domain}">
                             
@@ -222,9 +222,9 @@
                         </form>
                     </div>
                     <div id="addsrv" class="tab-pane" role="add-tabpanel">
-                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-srv" method="post" action="index.php?m=dns&id={$id}&action=submitcpanel">
+                    	<form class="dns-cpanel-form-add" name="add-dnsRecord-cpanel-srv" method="post" action="index.php?m=dns&{$idstring}&action=submitcpanel">
                            <input type="hidden" name="mode" value="addzonerecord">
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="SRV">
                            <input type="hidden" name="domain" value="{$domain}">
                             

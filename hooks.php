@@ -1,4 +1,5 @@
 <?php
+use WHMCS\Database\Capsule;
 /**
  * WHMCS SDK Sample Addon Module Hooks File
  *
@@ -43,7 +44,25 @@ add_hook('ClientAreaPrimarySidebar', 1, function($menu) {
 	 if(isset($_GET['id'])):
 	 
 		 $hosting_id = $_GET['id'];
+		 $query_data = Capsule::table('tblhosting')
+		 				->join('tblproducts', 'tblproducts.id' , '=' , 'tblhosting.packageid')
+		 				->where('tblhosting.id' , $hosting_id)->select('name')->first();
+						
+		 $product_name = $query_data->name;				
 		 
+		 if($product_name === 'DNS Hosting'):
+			 if (!is_null($menu->getChild('Service Details Overview'))) {
+				 $menu->getChild('Service Details Overview')
+					->addChild(
+						'DNS Management',
+						array(
+							'uri' => 'index.php?m=dns&hosting_id='.$hosting_id,
+							'order' => 15,
+						)
+					);
+			 }
+     	 endif;	
+
 			 if (!is_null($menu->getChild('Domain Details Management'))) {
 				// Add a link to the module filter.
 				$menu->getChild('Domain Details Management')

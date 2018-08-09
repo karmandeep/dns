@@ -168,7 +168,22 @@ function editcpanel(element) {
 //Power DNS Remove
 function remove(element) {
 	
-	  var id = $('.dns-form-edit :input[name="id"]').val();
+	  //var id = $('.dns-form-edit :input[name="id"]').val();
+
+	  if($('.dns-form-edit').find('input[name="hosting_id"]').length){
+		  var hosting_id = $('.dns-form-edit :input[name="hosting_id"]').val(); 
+		  var urlString = 'index.php?m=dns&action=delete&hosting_id='+hosting_id;
+		  var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+		  
+	  } else {
+		  var id = $('.dns-form-edit :input[name="id"]').val();
+		  var urlString = 'index.php?m=dns&action=delete&id='+id;
+		  var reDirectUrl = 'index.php?m=dns&id='+id;
+	  }	  
+
+
+
+	  //
 	  var obj = JSON.parse($(element).attr('data-obj')); 
 	  var rrsets = JSON.parse($(element).attr('data-rrsets')); 
 	  
@@ -190,7 +205,7 @@ function remove(element) {
 							if(result) {
 								//Ajax Call To Delete the Record.
 								$.ajax({
-										  url: 'index.php?m=dns&action=delete&id='+id,
+										  url: urlString,
 										  type: 'post',
 										  data:  obj,
 										  //async: false,
@@ -210,7 +225,7 @@ function remove(element) {
 														  text: data.message,
 														  type: "success"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+														  window.location = reDirectUrl+'&successmessage='+data.message;
 													  });
 												  
 											  } else {
@@ -219,7 +234,7 @@ function remove(element) {
 														  text: data.message,
 														  type: "warning"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+														  window.location = reDirectUrl+'&failedmessage='+data.message;
 													  });
 											  }
 										  },
@@ -240,7 +255,17 @@ function remove(element) {
 //cPanel DNS Remove
 function removecpanel(zone , line) {
 	
-	  var id = $('.dns-cpanel-form-add :input[name="id"]').val();
+	  //var id = $('.dns-cpanel-form-add :input[name="id"]').val();
+
+	  if($('.dns-cpanel-form-edit').find('input[name="hosting_id"]').length){
+		  var hosting_id = $('.dns-cpanel-form-edit :input[name="hosting_id"]').val(); 
+		  var urlString = 'index.php?m=dns&action=deletecpanel&hosting_id='+hosting_id;
+		  var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+	  } else {
+		  var id = $('.dns-cpanel-form-edit :input[name="id"]').val();
+		  var urlString = 'index.php?m=dns&action=deletecpanel&id='+id;
+		  var reDirectUrl = 'index.php?m=dns&id='+id;
+	  }	
 	  var obj = {'zone':zone, 'line':line};
 
 	 bootbox.confirm({
@@ -262,7 +287,7 @@ function removecpanel(zone , line) {
 								//The Code to Delete Here
 								
 								$.ajax({
-										  url: 'index.php?m=dns&action=deletecpanel&id='+id,
+										  url: urlString,
 										  type: 'post',
 										  data:  obj,
 										  //async: false,
@@ -282,7 +307,7 @@ function removecpanel(zone , line) {
 														  text: data.message,
 														  type: "success"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+														  window.location = reDirectUrl+'&successmessage='+data.message;
 													  });
 												  
 											  } else {
@@ -291,7 +316,7 @@ function removecpanel(zone , line) {
 														  text: data.message,
 														  type: "warning"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+														  window.location = reDirectUrl+'&failedmessage='+data.message;
 													  });
 											  }
 										  },
@@ -355,7 +380,19 @@ function updatecpanelttl() {
 //Power DNS DELETE all selected
 function deleteAll(elem) {
 
-    var id = $('.dns-form-add :input[name="id"]').val();
+    //var id = $('.dns-form-add :input[name="id"]').val();
+
+	if($('.dns-form-edit').find('input[name="hosting_id"]').length){
+		//'index.php?m=dns&action=deleteall&id='+id
+		var hosting_id = $('.dns-form-edit :input[name="hosting_id"]').val(); 
+		var urlString = 'index.php?m=dns&action=deleteall&hosting_id='+hosting_id;
+		var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+	} else {
+		var id = $('.dns-form-edit :input[name="id"]').val();
+		var urlString = 'index.php?m=dns&action=deleteall&id='+id;
+		var reDirectUrl = 'index.php?m=dns&id='+id;
+	}	
+
 
 	if($('.bulk-actions').hasClass('disabled') == false) {
 		var obj = '[';
@@ -388,7 +425,7 @@ function deleteAll(elem) {
 							if(result) {
 								//Ajax Call To Delete the Record.
 								$.ajax({
-										  url: 'index.php?m=dns&action=deleteall&id='+id,
+										  url: urlString,
 										  type: 'post',
 										  data:  JSON.stringify(obj),
 										  //async: false,
@@ -409,7 +446,7 @@ function deleteAll(elem) {
 														  text: data.message,
 														  type: "success"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+														  window.location = reDirectUrl+'&successmessage='+data.message;
 													  });
 												  
 											  } else {
@@ -418,7 +455,7 @@ function deleteAll(elem) {
 														  text: data.message,
 														  type: "warning"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+														  window.location = reDirectUrl+'&failedmessage='+data.message;
 													  });
 											  }
 										  },
@@ -438,12 +475,23 @@ function deleteAll(elem) {
 	}
 }
 
-//Power DNS DELETE all Selected
-//Power DNS Update TLD
+//cPanel DNS DELETE all Selected
 function deletecpanelAll() {
 	
 	
-	var id = $('.dns-cpanel-form-add :input[name="id"]').val();
+	//var id = $('.dns-cpanel-form-add :input[name="id"]').val();
+
+	if($('.dns-cpanel-form-edit').find('input[name="hosting_id"]').length){
+		//'index.php?m=dns&action=deleteall&id='+id
+		var hosting_id = $('.dns-cpanel-form-edit :input[name="hosting_id"]').val(); 
+		var urlString = 'index.php?m=dns&action=deleteallcpanel&hosting_id='+hosting_id;
+		var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+	} else {
+		var id = $('.dns-cpanel-form-edit :input[name="id"]').val();
+		var urlString = 'index.php?m=dns&action=deleteallcpanel&id='+id;
+		var reDirectUrl = 'index.php?m=dns&id='+id;
+	}	
+
 
 	if($('.bulk-actions').hasClass('disabled') == false) {
 		var obj = '[';
@@ -476,7 +524,7 @@ function deletecpanelAll() {
 							if(result) {
 								//Ajax Call To Delete the Record.
 								$.ajax({
-										  url: 'index.php?m=dns&action=deleteallcpanel&id='+id,
+										  url: urlString,
 										  type: 'post',
 										  data:  JSON.stringify(obj),
 										  //async: false,
@@ -497,7 +545,7 @@ function deletecpanelAll() {
 														  text: data.message,
 														  type: "success"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+														  window.location = reDirectUrl+'&successmessage='+data.message;
 													  });
 												  
 											  } else {
@@ -506,7 +554,7 @@ function deletecpanelAll() {
 														  text: data.message,
 														  type: "warning"
 													  }, function() {
-														  window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+														  window.location = reDirectUrl+'&failedmessage='+data.message;
 													  });
 											  }
 										  },
@@ -594,7 +642,17 @@ $(function(){
 				
 				//Define The Type
 				var type = $(this).find('input[name="type"]').val();
-				var id = $(this).find('input[name="id"]').val();
+				
+				if($(this).find('input[name="hosting_id"]').length){
+					var hosting_id = $(this).find('input[name="hosting_id"]').val();
+					var urlString = 'index.php?m=dns&action=submit&hosting_id='+hosting_id;
+					var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+				} else {
+					var id = $(this).find('input[name="id"]').val();
+					var urlString = 'index.php?m=dns&action=submit&id='+id;
+					var reDirectUrl = 'index.php?m=dns&id='+id;
+				}
+
 				var domain = $(this).find('input[name="domain"]').val();
 				//Validate the Content						
 				var name = $(this).find('input[name="name"]').val();
@@ -707,7 +765,7 @@ $(function(){
 		        
 					//Submit the Form using ajax
 					$.ajax({
-							  url: 'index.php?m=dns&action=submit&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: dataObj,
 							  //async: false,
@@ -726,7 +784,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl + '&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -756,7 +814,15 @@ $(function(){
 			//Lets Add the validation.	
 				//Define The Type
 				var type = $(this).find('input[name="type"]').val();
-				var id = $(this).find('input[name="id"]').val();
+				if($(this).find('input[name="hosting_id"]').length){
+					var hosting_id = $(this).find('input[name="hosting_id"]').val();
+					var urlString = 'index.php?m=dns&action=submit&hosting_id='+hosting_id;
+					var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+				} else {
+					var id = $(this).find('input[name="id"]').val();
+					var urlString = 'index.php?m=dns&action=submit&id='+id;
+					var reDirectUrl = 'index.php?m=dns&id='+id;
+				}
 				var domain = $(this).find('input[name="domain"]').val();
 				//Validate the Content						
 				var name = $(this).find('input[name="name"]').val();
@@ -869,7 +935,7 @@ $(function(){
 		        
 					//Submit the Form using ajax
 					$.ajax({
-							  url: 'index.php?m=dns&action=submit&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: dataObj,
 							  //async: false,
@@ -888,7 +954,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl+'&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -911,7 +977,20 @@ $(function(){
 		
 				
 		$("#mass-update-ttl").bind('submit' , function(e){
-			var id = $(this).find('input[name="id"]').val();
+			//var id = $(this).find('input[name="id"]').val();
+
+			if($(this).find('input[name="hosting_id"]').length){
+				var hosting_id = $(this).find('input[name="hosting_id"]').val();
+				
+				var urlString = 'index.php?m=dns&action=updatettl&hosting_id='+hosting_id;
+				var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+			} else {
+				var id = $(this).find('input[name="id"]').val();
+				
+				var urlString = 'index.php?m=dns&action=updatettl&id='+id;
+				var reDirectUrl = 'index.php?m=dns&id='+id;
+			}
+
 			var domain = $(this).find('input[name="domain"]').val();
 			var data = {};
 			data = $(this).find('input[name="data"]').val();
@@ -933,7 +1012,7 @@ $(function(){
 			e.preventDefault();
 
 					$.ajax({
-							  url: 'index.php?m=dns&action=updatettl&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: todata,
 							  //async: false,
@@ -952,7 +1031,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl+'&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -961,7 +1040,7 @@ $(function(){
 											  text: data.message,
 											  type: "warning"
 										  }, function() {
-											  //window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+											  window.location = reDirectUrl+'&failedmessage='+data.message;
 										  });
 								  }
 							  },
@@ -981,7 +1060,15 @@ $(function(){
 				
 				//Define The Type
 				var type = $(this).find('input[name="type"]').val();
-				var id = $(this).find('input[name="id"]').val();
+				if($(this).find('input[name="hosting_id"]').length){
+					var hosting_id = $(this).find('input[name="hosting_id"]').val();
+					var urlString = 'index.php?m=dns&action=submitcpanel&hosting_id='+hosting_id;
+					var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+				} else {
+					var id = $(this).find('input[name="id"]').val();
+					var urlString = 'index.php?m=dns&action=submitcpanel&id='+id;
+					var reDirectUrl = 'index.php?m=dns&id='+id;
+				}
 				var domain = $(this).find('input[name="domain"]').val();
 				var content = {};
 				var mode = $(this).find('input[name="mode"]').val();
@@ -1114,7 +1201,7 @@ $(function(){
 		        
 					//Submit the Form using ajax
 					$.ajax({
-							  url: 'index.php?m=dns&action=submitcpanel&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: dataObj,
 							  //async: false,
@@ -1133,7 +1220,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl+'&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -1163,7 +1250,15 @@ $(function(){
 			//Lets Add the validation.	
 				//Define The Type
 				var type = $(this).find('input[name="type"]').val();
-				var id = $(this).find('input[name="id"]').val();
+				if($(this).find('input[name="hosting_id"]').length){
+					var hosting_id = $(this).find('input[name="hosting_id"]').val();
+					var urlString = 'index.php?m=dns&action=submitcpanel&hosting_id='+hosting_id;
+					var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+				} else {
+					var id = $(this).find('input[name="id"]').val();
+					var urlString = 'index.php?m=dns&action=submitcpanel&id='+id;
+					var reDirectUrl = 'index.php?m=dns&id='+id;
+				}
 				var domain = $(this).find('input[name="domain"]').val();
 				var content = {};
 				var line = $(this).find('input[name="line"]').val();
@@ -1299,7 +1394,7 @@ $(function(){
 		        
 					//Submit the Form using ajax
 					$.ajax({
-							  url: 'index.php?m=dns&action=submitcpanel&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: dataObj,
 							  //async: false,
@@ -1318,7 +1413,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl+'&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -1341,7 +1436,20 @@ $(function(){
 		
 		$("#mass-update-cpanel-ttl").bind('submit' , function(e){
 			
-			var id = $(this).find('input[name="id"]').val();
+			//var id = $(this).find('input[name="id"]').val();
+			
+			if($(this).find('input[name="hosting_id"]').length){
+				var hosting_id = $(this).find('input[name="hosting_id"]').val();
+				
+				var urlString = 'index.php?m=dns&action=updatettlcpanel&hosting_id='+hosting_id;
+				var reDirectUrl = 'index.php?m=dns&hosting_id='+hosting_id;
+			} else {
+				var id = $(this).find('input[name="id"]').val();
+				
+				var urlString = 'index.php?m=dns&action=updatettlcpanel&id='+id;
+				var reDirectUrl = 'index.php?m=dns&id='+id;
+			}
+			
 			var mode = $(this).find('input[name="mode"]').val();
 			var domain = $(this).find('input[name="domain"]').val();
 			var data = {};
@@ -1364,7 +1472,7 @@ $(function(){
 			e.preventDefault();
 
 					$.ajax({
-							  url: 'index.php?m=dns&action=updatettlcpanel&id='+id,
+							  url: urlString,
 							  type: 'post',
 							  data: todata,
 							  //async: false,
@@ -1383,7 +1491,7 @@ $(function(){
 											  text: data.message,
 											  type: "success"
 										  }, function() {
-											  window.location = 'index.php?m=dns&id='+id+'&successmessage='+data.message;
+											  window.location = reDirectUrl+'&successmessage='+data.message;
 										  });
 									  
 								  } else {
@@ -1392,7 +1500,7 @@ $(function(){
 											  text: data.message,
 											  type: "warning"
 										  }, function() {
-											  //window.location = 'index.php?m=dns&id='+id+'&failedmessage='+data.message;
+											  window.location = reDirectUrl+'&failedmessage='+data.message;
 										  });
 								  }
 							  },

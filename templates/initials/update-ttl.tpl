@@ -11,8 +11,8 @@
            <div class="col-sm-12 col-md-12 col-lg-12">
     			
                 <div class="ttl-update-form">
-                <form id="mass-update-ttl" onSubmit="return false;" class="mass-update-ttl" name="mass-update-ttl" method="post" action="index.php?m=dns&id={$id}&action=updatettl">
-                    <input type="hidden" name="id" value="{$id}">
+                <form id="mass-update-ttl" onSubmit="return false;" class="mass-update-ttl" name="mass-update-ttl" method="post" action="index.php?m=dns&{$idstring}&action=updatettl">
+                    {$hidden_id_string}
                     <input type="hidden" name="mode" value="updatettl">
                     <input type="hidden" name="domain" value="{$domain}"> 
 

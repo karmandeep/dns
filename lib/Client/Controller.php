@@ -46,15 +46,28 @@ class Controller {
 		
         // Get common module parameters
 		$templatefile = 'publicpage';
+		$dString = '';
+		$hString = '';
 		$vars_set = [];
 		
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+			$dString = 'hosting_id='.$_GET['hosting_id'];
+			$hString = '<input type="hidden" name="hosting_id" value="' . $_GET['hosting_id'] . '">';
+			//id={$id}
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+			$dString = 'id='.$vars['id'];
+			$hString = '<input type="hidden" name="id" value="' . $vars['id'] . '">';
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		//$backend = 'powerdns';
+		//$backend = 'cpanel';
 		
 		switch($backend) {
 			
@@ -69,7 +82,7 @@ class Controller {
 
 				$pdns = new Powerdns_class();
 				$req = $pdns->request(['cmd' => 'servers/localhost/zones/' . $services_array['domain']] , 'GET');
-				
+				//
 				//Set The Vars
 				$templatefile = 'publicpage';
 				$vars_set = ['id' => $services_array['id'],
@@ -77,6 +90,8 @@ class Controller {
 							 'domain_replaces' => ['.'.$services_array['domain'].'.' , $services_array['domain'].'.', $services_array['domain']],
 							 'ttl_array' => $this->ttl_array,
 							 'ttl_array_selected' => 3600,
+							 'idstring' => $dString,
+							 'hidden_id_string' => $hString,
 							 'records' => $req->rrsets];
 							 
 
@@ -107,6 +122,8 @@ class Controller {
 							 'domain_replaces' => $services_array['domain'],
 							 'ttl_array' => $this->ttl_array,
 							 'ttl_array_selected' => 3600,
+ 							 'idstring' => $dString,
+ 							 'hidden_id_string' => $hString,
 							 'records' => $rrsets];
 				
 			
@@ -147,8 +164,15 @@ class Controller {
 		
 		$client_id = $_SESSION['uid'];
 
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+
+
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
 		$request_data = [];
@@ -184,8 +208,13 @@ class Controller {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
 		$request_data = [];
@@ -215,8 +244,13 @@ class Controller {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
 		$request_data = [];
@@ -252,8 +286,13 @@ class Controller {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 
 		$pdns = new Powerdns_class();
 		$request_data = [];
@@ -289,14 +328,19 @@ class Controller {
 	
 	
 	
-	//cPanel **********************************************/
+	/*cPanel Functions*/
 	
 	public function submitcpanel($vars) {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$cdns = new Cpaneldns_class();
 
@@ -373,8 +417,13 @@ class Controller {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$cdns = new Cpaneldns_class();
 		
@@ -398,8 +447,13 @@ class Controller {
 
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$cdns = new Cpaneldns_class();
 		$mode = $_POST['mode'];
@@ -432,15 +486,19 @@ class Controller {
 		
 	}
 	
-	//Workign on this
 	public function deleteallcpanel($vars) {
 
 		$data = json_decode(file_get_contents('php://input'), true);
 		
 		$client_id = $_SESSION['uid'];
 		
-		$services_query = select_query("tbldomains" , "", ['id' => $vars['id'], 'userid' => $client_id]);
-	 	$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+		if(isset($_GET['hosting_id'])):
+			$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_id'] , 'userid' => $client_id]);
+		else:
+			$services_query = select_query("tbldomains" , "", ['id' => $vars['id'] , 'userid' => $client_id]);
+		endif;
+		
+		$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		$cdns = new Cpaneldns_class();
 		
@@ -480,11 +538,15 @@ class Controller {
 
 	}
 	
+	
+	
+	//Private Functions
 	private function getNSbanckend($domain) {
 		
 		$backend = 'nan';
 		$ns = dns_get_record($domain, DNS_NS);
 		//$ns = dns_get_record('dfsdhfsdfjsdjf.de', DNS_NS);
+
 
 		if(is_array($ns) && sizeof($ns)):
 		

@@ -22,9 +22,9 @@
                 <div class="tab-content tabs-selection">
                 	<div id="edita" rel="A" class="tab-pane" role="edit-tabpanel">
                     	
-                        <form id="edit-dns-a" class="dns-form-edit" name="edit-dnsRecord-a" method="post" action="index.php?m=dns&id={$id}&action=submit">
+                        <form id="edit-dns-a" class="dns-form-edit" name="edit-dnsRecord-a" method="post" action="index.php?m=dns&{$idstring}&action=submit">
                             <!--<input type="hidden" name="mode" value="edit">-->
-                            <input type="hidden" name="id" value="{$id}">
+                            {$hidden_id_string}
                             <input type="hidden" name="type" value="A">
                             <input type="hidden" name="domain" value="{$domain}"> 
                    
@@ -70,9 +70,9 @@
                     </div>
                 	<div id="editcname" rel="CNAME" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-cname" class="dns-form-edit" name="edit-dnsRecord-cname" method="post" action="index.php?m=dns&id={$id}&action=submit">
+                    	<form id="edit-dns-cname" class="dns-form-edit" name="edit-dnsRecord-cname" method="post" action="index.php?m=dns&{$idstring}&action=submit">
                             <!--<input type="hidden" name="mode" value="edit">-->
-        					<input type="hidden" name="id" value="{$id}">
+        					{$hidden_id_string}
                             <input type="hidden" name="type" value="CNAME">
                             <input type="hidden" name="domain" value="{$domain}"> 
                             
@@ -114,9 +114,9 @@
                     </div>
                 	<div id="editmx" rel="MX" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-mx" class="dns-form-edit" name="edit-dnsRecord-mx" method="post" action="index.php?m=dns&id={$id}&action=submit">
+                    	<form id="edit-dns-mx" class="dns-form-edit" name="edit-dnsRecord-mx" method="post" action="index.php?m=dns&{$idstring}&action=submit">
                             <!--<input type="hidden" name="mode" value="edit">-->
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="MX">
                             <input type="hidden" name="domain" value="{$domain}"> 
                             
@@ -168,9 +168,9 @@
                     </div>
                 	<div id="edittxt" rel="TXT" class="tab-pane " role="edit-tabpanel">
                     
-                    	<form id="edit-dns-txt" class="dns-form-edit" name="edit-dnsRecord-txt" method="post" action="index.php?m=dns&id={$id}&action=submit">
+                    	<form id="edit-dns-txt" class="dns-form-edit" name="edit-dnsRecord-txt" method="post" action="index.php?m=dns&{$idstring}&action=submit">
                             <!--<input type="hidden" name="mode" value="edit">-->
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="TXT">
                             <input type="hidden" name="domain" value="{$domain}"> 
 
@@ -211,9 +211,9 @@
                     </div>
                 	<div id="editsrv" rel="SRV" class="tab-pane " role="edit-tabpanel">
                     	
-                        <form id="edit-dns-srv" class="dns-form-edit" name="edit-dnsRecord-srv" method="post" action="index.php?m=dns&id={$id}&action=submit">
+                        <form id="edit-dns-srv" class="dns-form-edit" name="edit-dnsRecord-srv" method="post" action="index.php?m=dns&{$idstring}&action=submit">
                             <!--<input type="hidden" name="mode" value="edit">-->
-	       				   <input type="hidden" name="id" value="{$id}">
+	       				   {$hidden_id_string}
                            <input type="hidden" name="type" value="SRV">
                            <input type="hidden" name="domain" value="{$domain}"> 
                            

@@ -113,8 +113,6 @@ class Controller {
 
 	}
 	 
-	 
-	 
 	 /**
      * Show action.
      *

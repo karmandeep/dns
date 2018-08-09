@@ -11,8 +11,8 @@
            <div class="col-sm-12 col-md-12 col-lg-12">
     			
                 <div class="ttl-update-form">
-                <form id="mass-update-cpanel-ttl" onSubmit="return false;" class="mass-update-cpanel-ttl" name="mass-update-cpanel-ttl" method="post" action="index.php?m=dns&id={$id}&action=updatettlcpanel">
-                    <input type="hidden" name="id" value="{$id}">
+                <form id="mass-update-cpanel-ttl" onSubmit="return false;" class="mass-update-cpanel-ttl" name="mass-update-cpanel-ttl" method="post" action="index.php?m=dns&{$idstring}&action=updatettlcpanel">
+                    {$hidden_id_string}
                     <input type="hidden" name="mode" value="editzonerecord">
                     <input type="hidden" name="domain" value="{$domain}"> 
 
