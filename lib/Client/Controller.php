@@ -67,7 +67,7 @@ class Controller {
 
 		
 		$backend = $this->getNSbanckend($services_array['domain']);
-		//$backend = 'cpanel';
+		//$backend = 'powerdns';
 		
 		switch($backend) {
 			

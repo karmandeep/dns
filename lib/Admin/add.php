@@ -53,7 +53,7 @@
     <div class="row">
     	<div class="col-md-12" style="margin:15px;">
        
-    <form name="createRecord" onSubmit="return checkForm(this);" action="addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>&action=submit" method="post">
+    <form name="createRecord" onSubmit="return checkForm(this);" action="addonmodules.php?module=dns&<?php echo $dString; ?>&action=submit" method="post">
     	<input type="hidden" name="mode" value="add">
     
         <table class="form" width="100%" border="0" cellspacing="0" cellpadding="0">

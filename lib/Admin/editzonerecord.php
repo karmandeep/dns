@@ -175,7 +175,7 @@
     <div class="row">
     	<div class="col-md-12" style="margin:15px;">
        
-    <form id="createRecord" name="createRecord" onSubmit="return checkForm(this);" action="addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>&action=submitcpanel" method="post">
+    <form id="createRecord" name="createRecord" onSubmit="return checkForm(this);" action="addonmodules.php?module=dns&<?php echo $dString; ?>&action=submitcpanel" method="post">
     	<input type="hidden" name="mode" value="editzonerecord">
     	<input type="hidden" name="line" value="<?php echo $editZoneData->Line; ?>">
     

@@ -17,7 +17,7 @@
 			if (r == true) {
 				
 				//Lets Delete
-				window.location = "addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>&action=delete&name="+encodeURI(name)+"&type="+type+"&content="+encodeURI(content)+"&ttl="+ttl+"";
+				window.location = "addonmodules.php?module=dns&<?php echo $dString; ?>&action=delete&name="+encodeURI(name)+"&type="+type+"&content="+encodeURI(content)+"&ttl="+ttl+"";
 				
 			} else {
 				
@@ -28,7 +28,7 @@
 			if(isset($_GET['result']) && $_GET['result'] === 'success'):
 		?> 
 			setTimeout( function() {
-						window.location = "addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>";
+						window.location = "addonmodules.php?module=dns&<?php echo $dString; ?>";
 					}
 					 , 5000);
 		<?php	
@@ -40,7 +40,7 @@
     <body data-phone-cc-input="1">
     <div class="row">
     	<div class="col-md-12 pull-md-right text-right" style="margin:15px;">
-      		<label onClick="window.open('addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>&action=add','addwindow','width=800,height=300,top=100,left=100,scrollbars=yes')" class="btn btn-success"><i class="fa fa-plus"></i> Create Record</label>  
+      		<label onClick="window.open('addonmodules.php?module=dns&<?php echo $dString; ?>&action=add','addwindow','width=800,height=300,top=100,left=100,scrollbars=yes')" class="btn btn-success"><i class="fa fa-plus"></i> Create Record</label>  
       	</div>
     </div>    
     <div class="row">
@@ -94,7 +94,7 @@
                         <td class="fieldarea text-left" width="10%"><?php echo $value->type; ?></td>
                         <td class="fieldarea text-left" width="30%"><?php echo str_replace(array('&quot;','"'),'',$subValue->content); ?></td>
                         <td class="fieldarea text-left" width="10%"><?php echo $this->ttl_array[$value->ttl]; ?></td>
-                        <td class="fieldarea text-center"><label onClick="window.open('addonmodules.php?module=dns&service_id=<?php echo $service_id; ?>&action=edit&name=<?php echo $value->name; ?>&type=<?php echo $value->type; ?>&ttl=<?php echo $value->ttl; ?>&content=<?php echo urlencode($subValue->content); ?>','editwindow','width=800,height=300,top=100,left=100,scrollbars=yes')" class="btn btn-warning"><i class="fa fa-pencil"></i></label> <label onClick="remove('<?php echo $value->name; ?>' , '<?php echo $value->type; ?>' , '<?php echo urlencode($subValue->content); ?>' , '<?php echo $value->ttl; ?>')" class="btn btn-danger"><i class="fa fa-trash"></i></label> </td>
+                        <td class="fieldarea text-center"><label onClick="window.open('addonmodules.php?module=dns&<?php echo $dString; ?>&action=edit&name=<?php echo $value->name; ?>&type=<?php echo $value->type; ?>&ttl=<?php echo $value->ttl; ?>&content=<?php echo urlencode($subValue->content); ?>','editwindow','width=800,height=300,top=100,left=100,scrollbars=yes')" class="btn btn-warning"><i class="fa fa-pencil"></i></label> <label onClick="remove('<?php echo $value->name; ?>' , '<?php echo $value->type; ?>' , '<?php echo urlencode($subValue->content); ?>' , '<?php echo $value->ttl; ?>')" class="btn btn-danger"><i class="fa fa-trash"></i></label> </td>
                     </tr>
                 </tbody>
                 <?php endif; ?>

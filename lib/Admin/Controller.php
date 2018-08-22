@@ -123,16 +123,32 @@ class Controller {
 	 //this is Common to both cPanel and PowerDNS
     public function index($vars) {
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
-		
-			$service_id = $_GET['service_id'];
+		if(isset($_GET)):
+			
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
+			
+			$dString = '';
+			$hString = '';
 			// Get common module parameters
-	
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
-	
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
+
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);	
 			$backend = $this->getNSbanckend($services_array['domain']);
-			//$backend = 'cpanel';
+			//$backend = 'powerdns';
+			
 			
 			switch($backend) {
 					
@@ -183,12 +199,30 @@ class Controller {
      */
 	public function add($vars) {
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		if(isset($_GET)):
+		//if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 		
-			$service_id = $_GET['service_id'];
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
 			
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			$dString = '';
+			$hString = '';
+			// Get common module parameters
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
+
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);	
 			 
 			include('add.php');
 			exit;
@@ -207,12 +241,30 @@ class Controller {
      */
 	public function edit($vars) {
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		//if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		if(isset($_GET)):
 		
-			$service_id = $_GET['service_id'];
-		
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
+			
+			$dString = '';
+			$hString = '';
+			// Get common module parameters
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
+
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);	
 		
 			$name_array = [];
 			if(($services_array['domain'].'.') === $_GET['name']) {
@@ -244,12 +296,28 @@ class Controller {
 		
 		
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
-			$service_id = $_GET['service_id'];
+		if(isset($_GET)):
+		
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
 			
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			$dString = '';
+			$hString = '';
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
 
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$pdns = new Powerdns_class();
 			$request_data = [];
@@ -270,11 +338,11 @@ class Controller {
 
 
 			if($req->error):
-				header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&action=".$_POST['mode']."&result=error&msg=" . urlencode($req->error)."&name=".$_POST['name']."&type=".$_POST['type']."&content=".urlencode($_POST['content'])."&ttl=".$_POST['ttl']);
+				header("Location: addonmodules.php?module=dns&" . $dString . "&action=".$_POST['mode']."&result=error&msg=" . urlencode($req->error)."&name=".$_POST['name']."&type=".$_POST['type']."&content=".urlencode($_POST['content'])."&ttl=".$_POST['ttl']);
 				exit;
 			endif;	
 			
-			header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&action=".$_POST['mode']."&result=success"."&name=".$_POST['name']."&type=".$_POST['type']."&content=".urlencode($_POST['content'])."&ttl=".$_POST['ttl']);
+			header("Location: addonmodules.php?module=dns&" . $dString . "&action=".$_POST['mode']."&result=success"."&name=".$_POST['name']."&type=".$_POST['type']."&content=".urlencode($_POST['content'])."&ttl=".$_POST['ttl']);
 			exit;
 
 		endif;	
@@ -290,13 +358,29 @@ class Controller {
      */
 	 public function delete($vars) {
 		 
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		//if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		if(isset($_GET)):
 		
-			$service_id = $_GET['service_id'];
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
 			
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			$dString = '';
+			$hString = '';
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
 
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 	
 			$pdns = new Powerdns_class();
 			$request_data = [];
@@ -317,11 +401,11 @@ class Controller {
 
 
 			if($req->error):
-				header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=error&msg=" . urlencode($req->error));
+				header("Location: addonmodules.php?module=dns&" . $dString . "&result=error&msg=" . urlencode($req->error));
 				exit;
 			endif;	
 			
-			header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=success");
+			header("Location: addonmodules.php?module=dns&" . $dString . "&result=success");
 			exit;
 
 		endif;	
@@ -340,14 +424,29 @@ class Controller {
 	 
 	public function addzonerecord($vars) {
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+//		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		if(isset($_GET)):
 		
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
 			
-			$service_id = $_GET['service_id'];
+			$dString = '';
+			$hString = '';
 			
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
-			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
 
+			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 			include('addzonerecord.php');
 			exit;
@@ -357,9 +456,25 @@ class Controller {
 	
 	public function editzonerecord($vars) {
 	
-		  $service_id = $_GET['service_id'];
+		  if(isset($_GET['service_id'])):
+			  $service_id = $_GET['service_id'];
+		  endif;
 		  
-		  $services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+		  $dString = '';
+		  $hString = '';
+		  
+		  if(isset($_GET['hosting_service_id'])):
+		  
+			  $services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+			  $dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+		  
+		  else:
+		  
+			  $services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+			  $dString = 'service_id='.$_GET['service_id'];
+		  
+		  endif;
+
 		  $services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 		
 		  $line = $_GET['line'];
@@ -391,11 +506,29 @@ class Controller {
 
 	public function removezonerecord($vars) {
 
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+		//if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 		
-			$service_id = $_GET['service_id'];
-				
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+		if(isset($_GET)):
+		
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
+			
+			$dString = '';
+			$hString = '';
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
+
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 			
 			$domain = $_GET['domain'];
@@ -408,11 +541,11 @@ class Controller {
 				$req = $cdns->request('removezonerecord' , ['domain' => $domain , 'line' => $line]);
 
 				if($req->result[0]->status == 0):
-					header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=error&msg=" . urlencode($req->result[0]->statusmsg));
+					header("Location: addonmodules.php?module=dns&" . $dString . "&result=error&msg=" . urlencode($req->result[0]->statusmsg));
 					exit;
 				endif;	
 				
-				header("Location: addonmodules.php?module=dns&service_id=" . $service_id . "&result=success");
+				header("Location: addonmodules.php?module=dns&" . $dString . "&result=success");
 				exit;
 			}
 		
@@ -423,11 +556,29 @@ class Controller {
 	
 	public function submitcpanel($vars) {
 		
-		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
+//		if(isset($_GET['service_id']) && $_GET['service_id'] != NULL):
 		
-			$service_id = $_GET['service_id'];
+		if(isset($_GET)):
+		
+			if(isset($_GET['service_id'])):
+				$service_id = $_GET['service_id'];
+			endif;
 			
-			$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+			$dString = '';
+			$hString = '';
+			
+			if(isset($_GET['hosting_service_id'])):
+			
+				$services_query = select_query("tblhosting" , "", ['id' => $_GET['hosting_service_id']]);
+				$dString = 'hosting_service_id='.$_GET['hosting_service_id'];
+			
+			else:
+			
+				$services_query = select_query("tbldomains" , "", ['id' => $service_id]);
+				$dString = 'service_id='.$_GET['service_id'];
+			
+			endif;
+
 			$services_array = mysql_fetch_array($services_query , MYSQL_ASSOC);
 			
 			$params = [];
@@ -483,16 +634,16 @@ class Controller {
 			$req = $cdns->request($mode , $params);
 
 			if($req->result[0]->status == 0):
-				header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . "&result=error&msg=" . urlencode($req->result[0]->statusmsg) . $line_data);
+				header("Location: addonmodules.php?module=dns&action=" . $mode . "&" . $dString . "&result=error&msg=" . urlencode($req->result[0]->statusmsg) . $line_data);
 				exit;
 			endif;	
 			
-			header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . "&result=success" . $line_data);
+			header("Location: addonmodules.php?module=dns&action=" . $mode . "&" . $dString . "&result=success" . $line_data);
 			exit;
 						
 		endif;	
 
-		header("Location: addonmodules.php?module=dns&action=" . $mode . "&service_id=" . $service_id . $line_data);
+		header("Location: addonmodules.php?module=dns&action=" . $mode . "&" . $dString . $line_data);
 		exit;
 
 	}

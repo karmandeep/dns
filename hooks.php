@@ -127,3 +127,19 @@ add_hook('AdminClientDomainsTabFields', 1, function($vars) {
 	//echo '</table>';
 	//return '12345';
 });
+
+
+add_hook('AdminClientServicesTabFields', 1, function($vars) {
+	
+	$service_id = $vars['id'];
+	$query_data = Capsule::table('tblhosting')
+				  ->join('tblproducts', 'tblproducts.id' , '=' , 'tblhosting.packageid')
+				  ->where('tblhosting.id' , $service_id)->select('name')->first();
+				  
+	$product_name = $query_data->name;				
+
+	if($product_name === 'DNS Hosting') {
+		echo '<div class="margin-10 text-right pull-md-left"><label style="margin:10px;" onClick="window.open(\'addonmodules.php?module=dns&hosting_service_id='.$service_id.'\',\'dnswindow\',\'width=800,height=600,top=100,left=100,scrollbars=yes\')" class="btn btn-default"><i class="fa fa-globe"></i> DNS Settings</label></div>';
+	}
+});
+
